@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Интернет магазин</title>
+    <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+    <header class="header">
+        <a class="logo" href="#">Магазин</a>
+        <div class="cart-summary">
+            <span>Товаров: 0</span>
+            <span>Сумма: 0</span>
+        </div>
+        <button class="btn btn-primary">Оформить заказ</button>
+    </header>
+    <main class="container main">
+        <section class="catalog">
+            <h1 class="catalog-title">Каталог</h1>
+            <div class="catalog-items"><p>Товары</p></div>
+        </section>
+        <aside class="cart">
+            <h2 class="cart-title">Корзина</h2>
+            <div class="cart-items"><p>Корзина пуста</p></div>
+            <div class="cart-footer">
+                <span>Итого:</span>
+                <button class="btn">Очистить корзину</button>
+            </div>
+        </aside>
+    </main>
+    <div class="modal">
+        <div class="modal header">
+            <h2>Оформление заказа</h2>
+        </div>
+        <form class="form">
+            <label class="field">
+                <span>Имя</span>
+                <input name="firstName" type="text" required minlength="2"/>
+            </label>
+            <label class="field">
+                <span>Фамилия</span>
+                <input name="lastName" type="text" required minlength="2"/>
+            </label>
+            <label class="field">
+                <span>Адрес доставки</span>
+                <input name="address" type="text" required minlength="5"/>
+            </label>
+            <label class="field">
+                <span>Контактный телефон</span>
+                <input name="phone" type="tel" required placeholder="+7..."/>
+            </label>
+            <button class="btn btn-primary" type="submit">Создать заказ</button>
+        </form>
+    </div>
+    <script src="js/app.js"></script>
+</body>
+</html>
