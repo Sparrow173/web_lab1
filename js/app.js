@@ -50,6 +50,11 @@ function addToCart(productId) {
   renderCart();
 }
 
+function removeFromCart(productId) {
+  delete cart[productId];
+  renderCart();
+}
+
 function renderCart() {
   cartItemsEl.innerHTML = "";
 
@@ -73,6 +78,8 @@ function renderCart() {
 
       <div class="cart-item__controls">
         <b>${item.qty}</b>
+        <button class="remove-btn" data-remove="${item.id}">Удалить</button>
+      </div>
       </div>
     `;
 
@@ -104,6 +111,13 @@ productGrid.addEventListener("click", (e) => {
 
   addToCart(btn.dataset.add);
 });
+
+cartItemsEl.addEventListener("click", (e) => {
+  const btn = e.target.closest("button[data-remove]");
+  if (!btn) return;
+  removeFromCart(btn.dataset.remove);
+});
+
 
 function escapeHtml(str) {
   return String(str)
