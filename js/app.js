@@ -8,6 +8,12 @@ const PRODUCTS = [
 ];
 
 const productGrid = document.getElementById("productGrid");
+const cartItemsEl = document.getElementById("cartItems");
+const cartCountEl = document.getElementById("cartCount");
+const cartTotalEl = document.getElementById("cartTotal");
+const cartTotalBottomEl = document.getElementById("cartTotalBottom");
+
+let cart = {};
 
 function renderProducts() {
   productGrid.innerHTML = "";
@@ -15,7 +21,7 @@ function renderProducts() {
   for (const p of PRODUCTS) {
     const card = document.createElement("article");
     card.className = "card";
-
+    
     card.innerHTML = `
       <div class="card__img" aria-hidden="true"></div>
       <div class="card__title">${escapeHtml(p.title)}</div>
@@ -31,6 +37,74 @@ function renderProducts() {
   }
 }
 
+function addToCart(productId) {
+  const product = PRODUCTS.find(p => p.id === productId);
+  if (!product) return;
+
+  if (!cart[productId]) {
+    cart[productId] = { ...product, qty: 1 };
+  } else {
+    cart[productId].qty += 1;
+  }
+
+  renderCart();
+}
+
+function renderCart() {
+  cartItemsEl.innerHTML = "";
+
+  const items = Object.values(cart);
+
+  if (items.length === 0) {
+    cartItemsEl.innerHTML = "<p>Корзина пустая</p>";
+    updateSummary();
+    return;
+  }
+
+  for (const item of items) {
+    const row = document.createElement("div");
+    row.className = "cart-item";
+
+    row.innerHTML = `
+      <div>
+        <div class="cart-item__title">${escapeHtml(item.title)}</div>
+        <div>${item.price} ₽ / шт</div>
+      </div>
+
+      <div class="cart-item__controls">
+        <b>${item.qty}</b>
+      </div>
+    `;
+
+    cartItemsEl.appendChild(row);
+  }
+
+  updateSummary();
+}
+
+function updateSummary() {
+  const items = Object.values(cart);
+
+  let count = 0;
+  let total = 0;
+
+  for (const item of items) {
+    count += item.qty;
+    total += item.qty * item.price;
+  }
+
+  cartCountEl.textContent = String(count);
+  cartTotalEl.textContent = String(total);
+  cartTotalBottomEl.textContent = String(total);
+}
+
+productGrid.addEventListener("click", (e) => {
+  const btn = e.target.closest("button[data-add]");
+  if (!btn) return;
+
+  addToCart(btn.dataset.add);
+});
+
 function escapeHtml(str) {
   return String(str)
     .replaceAll("&", "&amp;")
@@ -41,3 +115,4 @@ function escapeHtml(str) {
 }
 
 renderProducts();
+renderCart();
